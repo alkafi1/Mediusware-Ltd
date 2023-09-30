@@ -62,7 +62,7 @@ class HomeController extends Controller
         ]);
         $message = array(
             'message' => 'Amount Deposit Successfully.!',
-            'alert-type' => 'success',
+            'type' => 'success',
         );
         return back()->with($message);
     }
@@ -114,11 +114,13 @@ class HomeController extends Controller
             }
             $total_withdral_amount = $request->amount + $fee;
             if ($total_withdral_amount <= $user->balance) {
+                $current_amount =  $user->balance - $total_withdral_amount;
                 Transactions::insert([
                     'user_id' => Auth::user()->id,
                     'transaction_type' => 2,
                     'amount' => $request->amount,
                     'fee' => $fee,
+                    'remaining_amount' => $current_amount,
                     'created_at' => Carbon::now(),
                 ]);
                 $new_amount = $user->balance - $total_withdral_amount;
@@ -128,7 +130,7 @@ class HomeController extends Controller
                 ]);
                 $message = array(
                     'message' => 'Amount Withdrwal Successfully.!',
-                    'alert-type' => 'success',
+                    'type' => 'success',
                 );
                 return back()->with($message);
             } else {
@@ -169,7 +171,7 @@ class HomeController extends Controller
                 ]);
                 $message = array(
                     'message' => 'Amount Withdrwal Successfully.!',
-                    'alert-type' => 'success',
+                    'type' => 'success',
                 );
             } else {
                 $message  = [

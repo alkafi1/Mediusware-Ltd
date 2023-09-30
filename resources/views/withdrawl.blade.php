@@ -41,14 +41,16 @@
                                         <th>Transcation Type</th>
                                         <th>Amount</th>
                                         <th>Fee</th>
+                                        <th>Current Amount</th>
                                         <th>Date</th>
                                     </tr>
                                     @forelse ($transactions as $key=>$transaction)
                                         <tr>
                                             <td>{{ $transactions->firstItem() + $key }}</td>
                                             <td>{{ $transaction->transaction_type == 1 ? 'Deposit' : 'Withdrwal' }}</td>
-                                            <td>{{ $transaction->amount }}</td>
-                                            <td>{{ $transaction->fee }}</td>
+                                            <td>{{ $transaction->amount }} BDT</td>
+                                            <td>{{ $transaction->fee }} BDT</td>
+                                            <td>{{ $transaction->remaining_amount }} BDT</td>
                                             <td>{{ $transaction->created_at }}</td>
                                         </tr>
                                     @empty

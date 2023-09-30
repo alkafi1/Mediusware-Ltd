@@ -108,7 +108,7 @@
                                         User
                                     @endauth
                                 </p>
-                                <p class="designattion mb-0">{{ Auth::user()->balance }}</p>
+                                <p class="designattion mb-0">{{ Auth::user()->balance }} BDT</p>
                             </div>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
