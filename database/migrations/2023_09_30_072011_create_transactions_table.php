@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('user_id');
             $table->integer('transaction_type');
             $table->double('amount');
+            $table->double('remaining_amount')->nullable();
             $table->double('fee')->nullable();
             $table->timestamps();
         });

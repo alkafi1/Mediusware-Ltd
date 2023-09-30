@@ -21,6 +21,7 @@
     <!-- loader-->
     <link href="{{ asset('/backend/css/pace.min.css') }}" rel="stylesheet" />
     <script src="{{ asset('/backend/js/pace.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('backend/plugins/toastr/toastr.css') }}">
     <!-- Bootstrap CSS -->
     <link href="{{ asset('/backend/css/bootstrap.min.css ') }}" rel="stylesheet">
     <link href="{{ asset('/backend/css/bootstrap-extended.css ') }}" rel="stylesheet">
@@ -55,21 +56,21 @@
 
                 <li class="menu-label">Menu</li>
                 <li>
-                    <a href="{{route('transaction.show')}}">
+                    <a href="{{ route('transaction.show') }}">
                         <div class="parent-icon"><i class='bx bx-cookie'></i>
                         </div>
                         <div class="menu-title">Transactions</div>
                     </a>
                 </li>
                 <li>
-                    <a href="{{route('deposit')}}">
+                    <a href="{{ route('deposit') }}">
                         <div class="parent-icon"><i class='bx bx-cookie'></i>
                         </div>
                         <div class="menu-title">Deposited</div>
                     </a>
                 </li>
                 <li>
-                    <a href="{{route('withdrawl')}}">
+                    <a href="{{ route('withdrawl') }}">
                         <div class="parent-icon"><i class='bx bx-cookie'></i>
                         </div>
                         <div class="menu-title">Withdrawal</div>
@@ -107,7 +108,7 @@
                                         User
                                     @endauth
                                 </p>
-                                <p class="designattion mb-0">{{Auth::user()->balance}}</p>
+                                <p class="designattion mb-0">{{ Auth::user()->balance }}</p>
                             </div>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
@@ -261,13 +262,52 @@
     <script src="{{ asset('/backend/plugins/datatable/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('/backend/plugins/datatable/js/dataTables.bootstrap5.min.js') }}"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="{{ asset('/backend/plugins/tinymce.min.js') }}" referrerpolicy="origin">
-        < script src = "//cdn.ckeditor.com/4.14.0/standard/ckeditor.js" >
-    </script>
+    <script src="{{ asset('backend/plugins/toastr/toastr.js') }}"></script>
+
 
 
     <!--app JS-->
     <script src="{{ asset('/backend/js/app.js') }}"></script>
+    <script>
+        @if (Session::has('message'))
+            var type = "{{ Session::get('alert-type', 'info') }}";
+            switch (type) {
+                case 'info':
+                    toastr.info("{{ Session::get('message') }}");
+                    break;
+                case 'success':
+                    toastr.success("{{ Session::get('message') }}");
+                    break;
+                case 'warnings':
+                    toastr.warnings("{{ Session::get('message') }}");
+                    break;
+                case 'error':
+                    toastr.error("{{ Session::get('message') }}");
+                    break;
+            }
+        @endif
+    </script>
+    <script>
+        @if(session('message'))
+        const Toast = Swal.mixin({
+                toast: true,
+                position: 'bottom-end',
+                showConfirmButton: false,
+                timer: 2000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+
+        Toast.fire({
+            icon: "{{ session('type') }}",
+            title: "{{ session('message') }}"
+        })
+        @endif
+        
+    </script>
     @yield('footer_script')
 </body>
 
